@@ -12,24 +12,86 @@ public class Player : MonoBehaviour
     public float attackPower = 5f;
     public float attackCooldown = 1f;
 
+    public int Gold { get; private set; }
+
+    public int MoveSpeedLevel { get; private set; } = 0;
+    public int AttackPowerLevel { get; private set; } = 0;
+    public int AttackSpeedLevel { get; private set; } = 0;
+
     private void Awake()
     {
         Instance = this;
     }
 
-    void Start()
+    private void Start()
     {
         StateMachine = new PlayerStateMachine();
         StateMachine.AddState("Idle", new IdleState(this));
         StateMachine.AddState("Move", new MoveState(this));
         StateMachine.AddState("Attack", new AttackState(this));
-        
         StateMachine.ChangeState("Idle");
+
+        // 필요하면 저장된 데이터 불러오기
+        Load();
+        UIManager.Instance.UpdateGoldUI(Gold);
     }
-    
-    void Update()
+
+    private void Update()
     {
-        StateMachine.Update();    
+        StateMachine.Update();
+    }
+
+    public void AddGold(int amount)
+    {
+        Gold += amount;
+        UIManager.Instance.UpdateGoldUI(Gold);
+    }
+
+    public void SpendGold(int amount)
+    {
+        Gold -= amount;
+        UIManager.Instance.UpdateGoldUI(Gold);
+    }
+
+    public bool HasEnoughGold(int amount) => Gold >= amount;
+
+    public void UpgradeMoveSpeed()
+    {
+        moveSpeed += 0.5f;
+        MoveSpeedLevel++;
+    }
+
+    public void UpgradeAttackPower()
+    {
+        attackPower += 1f;
+        AttackPowerLevel++;
+    }
+
+    public void UpgradeAttackSpeed()
+    {
+        attackCooldown = Mathf.Max(0.2f, attackCooldown - 0.1f);
+        AttackSpeedLevel++;
+    }
+
+    public void Save()
+    {
+        PlayerPrefs.SetInt("Gold", Gold);
+        PlayerPrefs.SetInt("MoveSpeedLv", MoveSpeedLevel);
+        PlayerPrefs.SetInt("AttackPowerLv", AttackPowerLevel);
+        PlayerPrefs.SetInt("AttackSpeedLv", AttackSpeedLevel);
+        PlayerPrefs.Save();
+    }
+
+    public void Load()
+    {
+        Gold = PlayerPrefs.GetInt("Gold", 0);
+        MoveSpeedLevel = PlayerPrefs.GetInt("MoveSpeedLv", 0);
+        AttackPowerLevel = PlayerPrefs.GetInt("AttackPowerLv", 0);
+        AttackSpeedLevel = PlayerPrefs.GetInt("AttackSpeedLv", 0);
+
+        moveSpeed += 0.5f * MoveSpeedLevel;
+        attackPower += 1f * AttackPowerLevel;
+        attackCooldown = Mathf.Max(0.2f, attackCooldown - 0.1f * AttackSpeedLevel);
     }
 
     public bool HasTarget()
@@ -73,8 +135,4 @@ public class Player : MonoBehaviour
         
         return closest;
     }
-
-    public void UpgradeMoveSpeed() => moveSpeed += 0.5f;
-    public void UpgradeAttackPower() => attackPower += 1f;
-    public void UpgradeAttackSpeed() => attackCooldown = Mathf.Max(0.2f, attackCooldown - 0.1f);
 }

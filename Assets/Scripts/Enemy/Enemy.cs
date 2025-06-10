@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
@@ -13,9 +15,21 @@ public class Enemy : MonoBehaviour
 
     public float attackDamage = 5f;
     
+    Transform target;
+    
     void Start()
     {
         currentHP = maxHP;
+        target = Player.Instance.transform;
+    }
+
+    private void Update()
+    {
+        if (target != null)
+        {
+            Vector3 dir = (target.position - transform.position).normalized;
+            transform.position += dir * moveSpeed * Time.deltaTime;
+        }
     }
 
     public void TakeDamage(float amount)
@@ -28,7 +42,17 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        GameManager.Instance.AddGold(10); // 죽으면 골드 획득 임의의 고정값
+        int stage = StageManager.Instance.currentStage;
+        int goldReward = 10 + (stage - 1) * 2; // 스테이지 1당 골드 +2 증가
+        Player.Instance.AddGold(goldReward);
+
+        // ✅ (선택) 아이템 드랍 확률 예시
+        float dropChance = 0.05f + 0.01f * (stage - 1);
+        if (Random.value < dropChance)
+        {
+            Debug.Log("아이템 드랍!"); // 나중에 아이템 프리팹 생성하면 됨
+        }
+
         Destroy(gameObject);
     }
 

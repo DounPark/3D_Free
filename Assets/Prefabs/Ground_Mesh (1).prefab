@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3653237129364405791}
   m_Layer: 0
   m_Name: Ground_Mesh (1)
-  m_TagString: Untagged
+  m_TagString: MapTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 73

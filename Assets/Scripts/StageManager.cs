@@ -19,6 +19,7 @@ public class StageManager : MonoBehaviour
         currentStage++;
         Debug.Log($"StageManager: currentStage={currentStage}");
         
+        UIManager.Instance.UpdateStageUI(currentStage);
         // 절차적 맵 생성
         MapManager.Instance.GenerateStageMap(currentStage);
         // 웨이브 시작

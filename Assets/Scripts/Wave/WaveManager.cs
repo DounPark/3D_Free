@@ -40,14 +40,21 @@ public class WaveManager : MonoBehaviour
         currentWave++;
         Debug.Log($"Wave {currentWave} 시작");
         UIManager.Instance.UpdateWaveUI(currentWave);
+        
+        if (currentWave % 10 == 0)
+        {
+            StageManager.Instance.NextStage(); // 스테이지 증가
+            yield break; // 다음 스테이지에서 Wave 다시 시작되므로 중단
+        }
 
         int enemiesSpawned = 0;
         while (enemiesSpawned < enemiesPerWave)
         {
-            EnemySpawner spawner = spawners[Random.Range(0, spawners.Length)];
+            // EnemySpawner spawner = spawners[Random.Range(0, spawners.Length)];
 
             (GameObject prefab, EnemyType type) = GetEnemyPrefabByWave(currentWave);
-            GameObject enemy = Instantiate(prefab, spawner.transform.position, Quaternion.identity);
+            Vector3 spawnPos = MapManager.Instance.GetRandomSpawnPosition(); //  랜덤 위치 가져오기
+            GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity); //  랜덤 위치에서 생성
             enemy.GetComponent<Enemy>().Init(currentWave, type);
 
             activeEnemies.Add(enemy);

@@ -8,24 +8,24 @@ public class GameManager : MonoBehaviour
 
     public int CurrentStage { get; private set; } = 1;
     
-    public int Gold { get; private set; }
+    // public int Gold { get; private set; }
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void AddGold(int amount)
-    {
-        Gold += amount;
-        UIManager.Instance.UpdateGoldUI(Gold);
-    }
-
-    public void SpendGold(int amount)
-    {
-        Gold -= amount;
-        UIManager.Instance.UpdateGoldUI(Gold);
-    }
+    // public void AddGold(int amount)
+    // {
+    //     Gold += amount;
+    //     UIManager.Instance.UpdateGoldUI(Gold);
+    // }
+    //
+    // public void SpendGold(int amount)
+    // {
+    //     Gold -= amount;
+    //     UIManager.Instance.UpdateGoldUI(Gold);
+    // }
 
     public void NextStage()
     {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MapManager : MonoBehaviour
 {
@@ -46,5 +47,16 @@ public class MapManager : MonoBehaviour
         {
             Destroy(obj);
         }
+    }
+    
+    public Vector3 GetRandomSpawnPosition()
+    {
+        float mapSizeX = MapManager.Instance.mapSizeX * MapManager.Instance.tileSpacing;
+        float mapSizeZ = MapManager.Instance.mapSizeZ * MapManager.Instance.tileSpacing;
+
+        float x = Random.Range(0f, mapSizeX);
+        float z = Random.Range(0f, mapSizeZ);
+
+        return new Vector3(x, 0, z);
     }
 }
