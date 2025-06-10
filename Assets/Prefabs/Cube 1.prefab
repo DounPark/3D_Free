@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1633264769928592674}
   - component: {fileID: 942182369093025327}
   - component: {fileID: 3290382934621816994}
+  - component: {fileID: 9105319948518725603}
   m_Layer: 0
   m_Name: Cube 1
   m_TagString: Enemy
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5232434035116230361}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.37, y: 0.49, z: 10.52}
+  m_LocalPosition: {x: -2.37, y: 1, z: 10.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -118,8 +119,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60f018bed7ff5444a4d8b1c9cfbded5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 3
   moveSpeed: 2
   maxHP: 10
   currentHP: 0
   attackDamage: 5
+--- !u!54 &9105319948518725603
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5232434035116230361}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 10
+  m_AngularDrag: 10
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0

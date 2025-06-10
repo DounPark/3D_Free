@@ -21,6 +21,10 @@ public class IdleState : IState
         // 주변에 적이 있으면 상태 전환
         if (_player.HasTarget())
             _player.StateMachine.ChangeState("Move");
+        if (!_player.HasTarget())
+        {
+            _player.StateMachine.ChangeState("Move"); //  상태 전환이 꼭 있어야 함
+        }
     }
 
     public void Exit()

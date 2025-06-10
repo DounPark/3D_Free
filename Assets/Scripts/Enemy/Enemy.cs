@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class Enemy : MonoBehaviour
 {
     public EnemyType enemyType { get; private set; }
+    private Rigidbody rb;
 
     public int Level { get; private set; }
     public float moveSpeed = 2f;
@@ -16,7 +17,12 @@ public class Enemy : MonoBehaviour
     public float attackDamage = 5f;
     
     Transform target;
-    
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     void Start()
     {
         currentHP = maxHP;
@@ -28,7 +34,8 @@ public class Enemy : MonoBehaviour
         if (target != null)
         {
             Vector3 dir = (target.position - transform.position).normalized;
-            transform.position += dir * moveSpeed * Time.deltaTime;
+            Vector3 nextPos = transform.position + dir * moveSpeed * Time.deltaTime;
+            rb.MovePosition(nextPos);
         }
     }
 
@@ -46,7 +53,7 @@ public class Enemy : MonoBehaviour
         int goldReward = 10 + (stage - 1) * 2; // 스테이지 1당 골드 +2 증가
         Player.Instance.AddGold(goldReward);
 
-        // ✅ (선택) 아이템 드랍 확률 예시
+        //  (선택) 아이템 드랍 확률 예시
         float dropChance = 0.05f + 0.01f * (stage - 1);
         if (Random.value < dropChance)
         {

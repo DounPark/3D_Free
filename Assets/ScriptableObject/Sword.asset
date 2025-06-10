@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e36ca9e071949584aa0fe2d23d5ea7f4, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  itemName: 
-  icon: {fileID: 0}
-  description: 
+  itemName: Sword
+  description: "\uCE7C"
+  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   itemType: 0
-  value: 0
+  equipSlot: 3
+  movementSpeed: 0
+  attackPower: 1
+  attackSpeed: 0
+  moveSpeedUp: 0
+  attackPowerUp: 0
+  itemValue: 0
+  itemPrefab: {fileID: 0}

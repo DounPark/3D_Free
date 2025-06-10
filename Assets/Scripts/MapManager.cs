@@ -23,12 +23,17 @@ public class MapManager : MonoBehaviour
     {
         ClearMap();
 
+        Vector3 tileSize = floorTilePrefab.GetComponent<Renderer>().bounds.size;
+        float spacingX = tileSize.x;
+        float spacingZ = tileSize.z;
+
         for (int x = 0; x < mapSizeX; x++)
         {
             for (int z = 0; z < mapSizeZ; z++)
             {
-                Vector3 pos = new Vector3(x * tileSpacing, 0, z * tileSpacing);
-                Instantiate(floorTilePrefab, pos, Quaternion.identity);
+                Vector3 pos = new Vector3(x * spacingX, 0, z * spacingZ);
+                GameObject tile = Instantiate(floorTilePrefab, pos, Quaternion.identity);
+                tile.tag = "MapTile"; //  ClearMap에 걸리도록 태그 지정
                 
                 // // 스테이지 높아질수록 장애물 확률 증가
                 // float chance = Mathf.Clamp01(0.05f * stage);
@@ -57,6 +62,6 @@ public class MapManager : MonoBehaviour
         float x = Random.Range(0f, mapSizeX);
         float z = Random.Range(0f, mapSizeZ);
 
-        return new Vector3(x, 0, z);
+        return new Vector3(x, 1, z);
     }
 }
