@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Transform inventoryGrid;
-    [SerializeField] private Transform equipGrid;
+    // [SerializeField] private Transform equipGrid;
     [SerializeField] private Image[] equipSlotImages; // Head, Body, Weapon, Accessory 등
 
     [Header("Ability Panel")]
@@ -174,7 +174,7 @@ public class UIManager : MonoBehaviour
         foreach (Transform t in inventoryGrid) Destroy(t.gameObject);
         foreach (var item in playerData.inventory)
         {
-            Debug.Log($"슬롯 생성 중: {item.itemName}");
+            
             var go = Instantiate(slotPrefab, inventoryGrid);
             go.GetComponent<ItemSlotUI>().Setup(item);
         }
@@ -189,7 +189,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                equipSlotImages[i].enabled = false; // 비워두기
+                equipSlotImages[i].enabled = false; // 
             }
         }
         Debug.Log("업데이트");
@@ -213,10 +213,10 @@ public class UIManager : MonoBehaviour
     public void EquipItem(ItemData item)
     {
         int slotIndex = (int)item.equipSlot;
-        Debug.Log($"[장착 시도] 아이템: {item.itemName}, 슬롯 인덱스: {slotIndex}");
+        
         if (slotIndex < 0 || slotIndex >= playerData.equippedItems.Count)
         {
-            Debug.LogWarning("장착 실패: 올바르지 않은 슬롯 인덱스");
+            
             return;
         }
 
