@@ -15,5 +15,11 @@ MonoBehaviour:
   moveSpeed: 3
   attackPower: 5
   attackSpeed: 1
-  inventory: []
-  equippedItems: []
+  inventory:
+  - {fileID: 11400000, guid: a0bce1d1d84b3f6488233ddca021729c, type: 2}
+  equippedItems:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 4b87163f35cd58c4a94ccfd728ea639d, type: 2}
+  - {fileID: 11400000, guid: cdaa0cdf4d528b041a92e74aa16402d7, type: 2}
+  - {fileID: 11400000, guid: cd85a856e83ba5c41848ba32cf1fa736, type: 2}
+  - {fileID: 0}

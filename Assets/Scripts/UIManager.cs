@@ -21,10 +21,13 @@ public class UIManager : MonoBehaviour
     public Button playerButton;
     public GameObject playerPanel;
     public TextMeshProUGUI statText;
-    public Transform inventoryGrid;
-    public Transform equipGrid;
     
     public Button closePlayerButton;
+    
+    [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private Transform inventoryGrid;
+    [SerializeField] private Transform equipGrid;
+    [SerializeField] private Image[] equipSlotImages; // Head, Body, Weapon, Accessory 등
 
     [Header("Ability Panel")]
     public GameObject abilityPanel;
@@ -37,7 +40,9 @@ public class UIManager : MonoBehaviour
     
     public Button closeAbilityButton;
     
+    
     public PlayerData playerData;
+    // public InventorySlotUI[] inventorySlots;
 
     private int moveCost = 10;
     private int powerCost = 20;
@@ -157,27 +162,90 @@ public class UIManager : MonoBehaviour
     //     abilityPanel.SetActive(false);
     //     UpdateUI();
     // }
-    
-    void UpdatePlayerPanel()
+
+    public void UpdatePlayerPanel()
     {
         // 능력치
         statText.text = $"이동속도: {Player.Instance.moveSpeed}\n" +
                         $"공격력: {Player.Instance.attackPower}\n" +
                         $"공격속도: {Player.Instance.attackCooldown}";
 
-        // 인벤토리
+        // 인벤토리 갱신
         foreach (Transform t in inventoryGrid) Destroy(t.gameObject);
         foreach (var item in playerData.inventory)
         {
-            // 아이템 슬롯 프리팹 생성 후 아이콘/이름 등 표시
-            // 예시: Instantiate(slotPrefab, inventoryGrid).GetComponent<ItemSlotUI>().Setup(item);
+            Debug.Log($"슬롯 생성 중: {item.itemName}");
+            var go = Instantiate(slotPrefab, inventoryGrid);
+            go.GetComponent<ItemSlotUI>().Setup(item);
         }
 
-        // 장착 아이템
-        foreach (Transform t in equipGrid) Destroy(t.gameObject);
-        foreach (var item in playerData.equippedItems)
+        // 장착 아이템 갱신
+        for (int i = 0; i < equipSlotImages.Length; i++)
         {
-            // 장착 슬롯 프리팹 생성
+            if (i < playerData.equippedItems.Count && playerData.equippedItems[i] != null)
+            {
+                equipSlotImages[i].sprite = playerData.equippedItems[i].icon;
+                equipSlotImages[i].enabled = true;
+            }
+            else
+            {
+                equipSlotImages[i].enabled = false; // 비워두기
+            }
         }
+        Debug.Log("업데이트");
+    }
+
+    // public void RefreshInventoryUI()
+    // {
+    //     for (int i = 0; i < inventorySlots.Length; i++)
+    //     {
+    //         if (i < PlayerInventory.Instance.items.Count)
+    //         {
+    //             inventorySlots[i].SetItem(PlayerInventory.Instance.items[i]);
+    //         }
+    //         else
+    //         {
+    //             inventorySlots[i].Clear();
+    //         }
+    //     }
+    // }
+    
+    public void EquipItem(ItemData item)
+    {
+        int slotIndex = (int)item.equipSlot;
+        Debug.Log($"[장착 시도] 아이템: {item.itemName}, 슬롯 인덱스: {slotIndex}");
+        if (slotIndex < 0 || slotIndex >= playerData.equippedItems.Count)
+        {
+            Debug.LogWarning("장착 실패: 올바르지 않은 슬롯 인덱스");
+            return;
+        }
+
+        // 기존 장비 인벤토리로
+        var oldItem = playerData.equippedItems[slotIndex];
+        if (oldItem != null)
+        {
+            playerData.inventory.Add(oldItem);
+        }
+
+        // 새 장비 장착
+        playerData.inventory.Remove(item);
+        playerData.equippedItems[slotIndex] = item;
+
+        Player.Instance.RecalculateStats(playerData.equippedItems);
+        UpdatePlayerPanel();
+    }
+    
+    public void UnequipItem(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= playerData.equippedItems.Count) return;
+
+        var equipped = playerData.equippedItems[slotIndex];
+        if (equipped == null) return;
+
+        playerData.inventory.Add(equipped);
+        playerData.equippedItems[slotIndex] = null;
+
+        Player.Instance.RecalculateStats(playerData.equippedItems);
+        UpdatePlayerPanel();
     }
 }

@@ -27,4 +27,11 @@ public class ItemData : ScriptableObject
 }
 
 public enum ItemType { Equipment, Consumable, Material, Quest }
-public enum EquipSlot { None, Head, Body, Weapon, Accessory }
+public enum EquipSlot 
+{   
+    Head = 0,
+    Weapon = 1,
+    Body = 2,
+    Accessory = 3,
+    None = 4
+}

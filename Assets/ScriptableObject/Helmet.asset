@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e36ca9e071949584aa0fe2d23d5ea7f4, type: 3}
-  m_Name: Sword
+  m_Name: Helmet
   m_EditorClassIdentifier: 
-  itemName: Sword
-  description: "\uCE7C"
+  itemName: Helmet
+  description: "\uD22C\uAD6C"
   icon: {fileID: 21300000, guid: ca63caa75a38d5b43abb62859fd5169e, type: 3}
   itemType: 0
-  equipSlot: 1
+  equipSlot: 0
   movementSpeed: 0
-  attackPower: 1
-  attackSpeed: 0
+  attackPower: 0
+  attackSpeed: 0.1
   moveSpeedUp: 0
   attackPowerUp: 0
   itemValue: 0

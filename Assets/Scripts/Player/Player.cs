@@ -135,4 +135,24 @@ public class Player : MonoBehaviour
         
         return closest;
     }
+    
+    public void RecalculateStats(List<ItemData> equippedItems)
+    {
+        // 기본 능력치 + 업그레이드
+        moveSpeed = 3f + 0.5f * MoveSpeedLevel;
+        attackPower = 5f + 1f * AttackPowerLevel;
+        attackCooldown = Mathf.Max(0.2f, 1f - 0.1f * AttackSpeedLevel);
+
+        // 장착 아이템 능력치 반영
+        foreach (var item in equippedItems)
+        {
+            if (item == null) continue;
+
+            moveSpeed += item.movementSpeed;
+            attackPower += item.attackPower;
+            attackCooldown = Mathf.Max(0.1f, attackCooldown - item.attackSpeed); // 빠를수록 낮아짐
+        }
+
+        UIManager.Instance.UpdatePlayerPanel(); // 능력치 UI 갱신
+    }
 }
